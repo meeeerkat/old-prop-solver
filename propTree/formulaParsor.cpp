@@ -61,6 +61,12 @@ void FormulaParsor::cleanSubFormulaIndexs(std::string const& formula, int& start
 	endI++; // In other functions, endI is not taken into the subFormula but it is the superior born
 }
 
+std::string FormulaParsor::getWord(std::string const& formula, int& i, int const& endI)
+{
+	int oldI = i;
+	while(i < endI && formula[i] != ' ' && formula[i] != '(') i++;
+	return formula.substr(oldI, i-oldI);
+}
 
 
 PropTree* FormulaParsor::getPropTreeRecursive(std::string const& formula, int startI, int endI)
@@ -84,16 +90,19 @@ PropTree* FormulaParsor::getPropTreeRecursive(std::string const& formula, int st
 		if(formula[i] == '(')
 			passParenthesis(formula, i);
 
-		while(i < endI && formula[i] != ' ') i++;
-		while(i < endI && formula[i] == ' ') i++;
-
-		if(i >= endI)
-			break;
-
 		int oldI = i;
-		while(i < endI && formula[i] != ' ' && formula[i] != '(') i++;
-		const std::string op = formula.substr(oldI, i-oldI);
+		std::string op = getWord(formula, i, endI); // op can be an unitary operator
+		if (!PropTree::isOperatorSymbol(op))
+		{
+			while(i < endI && formula[i] == ' ') i++;
+			if(i >= endI)
+				break;
 
+			oldI = i;
+			op = getWord(formula, i, endI); // If the operator is not unitary & the formula is correct, we have an operator here
+		}
+
+		// Here we have an operator for sure
 		PropTree* tree = new PropTree(op);
 		if(currentTree->hasPriorityOver(*tree))
 		{

@@ -26,6 +26,8 @@ protected:
 	static void cleanSubFormulaIndexs(std::string const& formula, int& startI, int& endI);
 
 	static bool canBeVariable(std::string const& formula, int const& startI, int const& endI);
+
+	static std::string getWord(std::string const& formula, int& i, int const& endI);
 };
 
 
