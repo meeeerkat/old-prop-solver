@@ -1,24 +1,24 @@
+#ifndef __TREE_H_INCLUDED__
+#define __TREE_H_INCLUDED__
+
 #include <vector>
 #include <string>
+#include <iostream>
+
 
 class Tree {
 public:
-	Tree(std::vector<Tree*> children = std::vector<Tree*>());
+	Tree(Tree* left = nullptr, Tree* right = nullptr);
  	virtual ~Tree();
 	
+	// Attributes
+	Tree* left;
+	Tree* right;
 
-	// operator<<
-	
-	virtual void addChild(Tree* const& child);
-	virtual Tree* getChild(int const& x) const;
-	
+	// Display
  	virtual std::string nodeToString() const;
-	virtual std::vector<std::string> getRootToLeafPaths() const;
-	void printRootToLeafPaths() const;
-
-protected:
-	std::vector<Tree*> children;
+	void display(int indent=0, int const& indentSize=4) const;
 };
 
 
-
+#endif
