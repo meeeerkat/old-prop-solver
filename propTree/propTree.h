@@ -8,6 +8,8 @@
 
 class PropTree : public Tree {
 public:
+	enum Operator{None=100, Not=5,And=4,Or=3,Implies=2,Equivals=1};
+
 	PropTree(std::string symbol = "", Tree* left = nullptr, Tree* right = nullptr);
 
  	//virtual std::string getFormula() const;
@@ -18,13 +20,23 @@ public:
 
 	static bool isOperatorSymbol(std::string const& s);
 
-protected:
-	// This stays in the class and is used only for "hasPriorityOver" function
-	char priority;
-	std::string symbol;
+	void toNCF();
 
-	typedef std::map<std::string, int> OpMap;
-	static OpMap Priorities;
+
+
+protected:
+	std::string symbol;
+	Operator op;
+	
+
+	typedef std::map<std::string, Operator> OpMap;
+	static OpMap Operators;
+
+	// toCNF helpers
+	void replaceEquivalences();
+	void replaceImplications();
+	void simplifyNots();
+	void distributeOrOnAnd();
 };
 
 #endif
