@@ -26,15 +26,12 @@ bool FormulaParsor::canBeVariable(std::string const& formula, int const& startI,
 // Makes i pass the parenthesis
 void FormulaParsor::passParenthesis(std::string const& formula, int& i)
 {
-	i++; // First index is the opened parenthesis
+	i++;
 	for(int opened=1; opened > 0; i++)
 	{
 		if(formula[i] == '(') opened++;
 		if(formula[i] == ')') opened--;
 	}
-
-	// formula[i] == ')'
-	i++;
 }
 
 bool FormulaParsor::canRemoveExtremeParenthesis(std::string const& formula, int startI, int endI)
@@ -71,11 +68,11 @@ PropTree* FormulaParsor::getPropTreeRecursive(std::string const& formula, int st
 	cleanSubFormulaIndexs(formula, startI, endI);
 
 	// Unitary operators have their first cut useless (it gives an empty string)
-	if(startI == endI)
+	if(startI >= endI)
 		return nullptr;
 
 	// Simple cases
-	if (canBeVariable(formula, startI, endI)) // Here everything that can be a variable is (no spaces in it)
+	if(canBeVariable(formula, startI, endI)) // Here everything that can be a variable is (no spaces in it)
 		return new PropTree(formula.substr(startI, endI-startI));
 
 	// Find the operator with minimum priority & cut the string following that operator to get children
@@ -87,7 +84,6 @@ PropTree* FormulaParsor::getPropTreeRecursive(std::string const& formula, int st
 		if(formula[i] == '(')
 			passParenthesis(formula, i);
 
-		while(i < endI && formula[i] == ' ') i++;
 		while(i < endI && formula[i] != ' ') i++;
 		while(i < endI && formula[i] == ' ') i++;
 
