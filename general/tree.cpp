@@ -12,8 +12,8 @@ Tree::Tree(Tree* left, Tree* right)
 
 Tree::~Tree()
 {
-	delete(left);
-	delete(right);
+	if(left) delete(left);
+	if(right) delete(right);
 }
 
 

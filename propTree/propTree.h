@@ -10,33 +10,32 @@ class PropTree : public Tree {
 public:
 	enum Operator{None=100, Not=5,And=4,Or=3,Implies=2,Equivals=1};
 
-	PropTree(std::string symbol = "", Tree* left = nullptr, Tree* right = nullptr);
+	PropTree(Operator op = Operator::None, Tree* left = nullptr, Tree* right = nullptr);
+	PropTree(std::string symbol, Tree* left = nullptr, Tree* right = nullptr);
+	PropTree(PropTree* t);
 
  	//virtual std::string getFormula() const;
 	virtual std::string nodeToString() const;
 
+	Operator getOperator() const;
+	void setOperator(Operator op);
+
+	std::string getSymbol() const;
 	virtual void setSymbol(std::string symbol);
 	bool hasPriorityOver(PropTree const& t) const;
 
-	static bool isOperatorSymbol(std::string const& s);
+	bool isVariable() const;
 
-	void toNCF();
+	static bool isOperatorSymbol(std::string const& s);
 
 
 
 protected:
-	std::string symbol;
 	Operator op;
+	std::string symbol;
 	
-
-	typedef std::map<std::string, Operator> OpMap;
-	static OpMap Operators;
-
-	// toCNF helpers
-	void replaceEquivalences();
-	void replaceImplications();
-	void simplifyNots();
-	void distributeOrOnAnd();
+	static std::map<std::string, Operator> StringToOperators;
+	static std::map<Operator, std::string> OperatorsToString;
 };
 
 #endif

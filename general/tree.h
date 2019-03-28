@@ -12,8 +12,8 @@ public:
  	virtual ~Tree();
 	
 	// Attributes
-	Tree* left;
-	Tree* right;
+	Tree* left = nullptr;
+	Tree* right = nullptr;
 
 	// Display
  	virtual std::string nodeToString() const;

@@ -1,8 +1,11 @@
 
 
-TO SEARCH ON INTERNET WHEN HAS THE CONNECTION TO DO SO:
 
-propTree/propNodes.h : Are attributes virtual by nature ? virtual keyword before attributes makes an error
+USE SETS FOR CLAUSES SETS
+
+DONT USE STATIC CLASSES BUT USE NAMESPACES ???????
+
+toCNF & other functions like that are to be outside of the PropTree class for ease of use (and because it's not directly related)
 
 
 
