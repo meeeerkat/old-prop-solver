@@ -1,4 +1,6 @@
 #include <string>
+#include <iostream>
+#include <iomanip>
 #include "propTree.h"
 
 std::map<std::string, PropTree::Operator> PropTree::StringToOperators = {
@@ -21,25 +23,42 @@ std::map<PropTree::Operator, std::string> PropTree::OperatorsToString = {
 
 
 
-PropTree::PropTree(std::string symbol, Tree* left, Tree* right)
-	: Tree(left, right)
+PropTree::PropTree(std::string symbol, PropTree* left, PropTree* right)
+	: left(left), right(right)
 {
 	setSymbol(symbol);
 }
 
-PropTree::PropTree(Operator op, Tree* left, Tree* right)
-	: Tree(left, right)
+PropTree::PropTree(Operator op, PropTree* left, PropTree* right)
+	: left(left), right(right)
 {
 	setOperator(op);
 }
 
 PropTree::PropTree(PropTree* t)
-	: Tree(), op(t->op), symbol(t->symbol)
+	: op(t->op), symbol(t->symbol)
 {
-	if(t->left) left = new PropTree(static_cast<PropTree*>(t->left));
-	if(t->right) right = new PropTree(static_cast<PropTree*>(t->right));
+	if(t->left) left = new PropTree(t->left);
+	if(t->right) right = new PropTree(t->right);
 }
 
+
+PropTree::~PropTree()
+{
+	if(left) delete(left);
+	if(right) delete(right);
+}
+
+
+void PropTree::display(int indent, int const& indentSize) const
+{
+        if (indent) {
+            std::cout << std::setw(indent) << ' ';
+        }
+	std::cout << nodeToString() << "\n ";
+        if(left) left->display(indent+indentSize);
+        if(right) right->display(indent+indentSize);
+}
 
 
 bool PropTree::isOperatorSymbol(std::string const& symbol)
@@ -87,5 +106,10 @@ bool PropTree::hasPriorityOver(PropTree const& t) const
 bool PropTree::isVariable() const
 {
 	return op == Operator::None;
+}
+
+std::vector<PropTree*> PropTree::getChildren() const
+{
+	return std::vector<PropTree*>{left, right};
 }
 

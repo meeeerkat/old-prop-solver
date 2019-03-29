@@ -7,7 +7,7 @@ class CnfTransform {
 public:
 	static void replaceEquivalences(PropTree* t);
 	static void replaceImplications(PropTree* t);
-	static void simplifyNots(Tree* t);
+	static void simplifyNots(PropTree* t);
 	static void distributeOrOnAnd(PropTree* t);
 	static void toCNF(PropTree* t);
 };
