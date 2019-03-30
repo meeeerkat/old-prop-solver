@@ -1,6 +1,6 @@
 #include <iostream>
-#include "propTree/cnfTransform.h"
 #include "propTree/formulaParsor.h"
+#include "propTree/cnfTransform.h"
 
 
 
@@ -8,9 +8,9 @@ int main()
 {
 	std::string formula;
 	std::getline(std::cin, formula);
-	PropTree* t = FormulaParsor::getPropTree(formula);
+	PropTree* t = getPropTree(formula);
 
-	CnfTransform::toCNF(t);
+	toCNF(t);
 
 	t->display();
 	delete(t);

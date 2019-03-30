@@ -6,29 +6,22 @@
 #include "propTree.h"
 
 
-// A static class so internal functions are hidden from the user
-// Could have used functions declared in other functions but it's not that clean
+PropTree* getPropTree(std::string const& formula);
 
-// TO MAKE STATIC (SEARCH SYNTAX)
+PropTree* createNewPropTree(std::string const& op);
 
-class FormulaParsor
-{
-public:
- 	static PropTree* getPropTree(std::string const& formula);
 
-	static PropTree* createNewPropTree(std::string const& op);
 
-protected:
-	static PropTree* getPropTreeRecursive(std::string const& formula, int startI, int endI);
 
-	static void passParenthesis(std::string const& formula, int& i);
-	static bool canRemoveExtremeParenthesis(std::string const& formula, int startI, int endI);
-	static void cleanSubFormulaIndexs(std::string const& formula, int& startI, int& endI);
+PropTree* getPropTreeRecursive(std::string const& formula, int startI, int endI);
 
-	static bool canBeVariable(std::string const& formula, int const& startI, int const& endI);
+void passParenthesis(std::string const& formula, int& i);
+bool canRemoveExtremeParenthesis(std::string const& formula, int startI, int endI);
+void cleanSubFormulaIndexs(std::string const& formula, int& startI, int& endI);
 
-	static std::string getWord(std::string const& formula, int& i, int const& endI);
-};
+bool canBeVariable(std::string const& formula, int const& startI, int const& endI);
+
+std::string getWord(std::string const& formula, int& i, int const& endI);
 
 
 #endif

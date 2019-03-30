@@ -2,7 +2,7 @@
 #include "cnfTransform.h"
 
 
-void CnfTransform::replaceEquivalences(PropTree* t)
+void replaceEquivalences(PropTree* t)
 {
 	if(t->getOperator() == PropTree::Operator::Equivals)
 	{
@@ -16,7 +16,7 @@ void CnfTransform::replaceEquivalences(PropTree* t)
 	if(t->right) replaceEquivalences(t->right);
 }
 
-void CnfTransform::replaceImplications(PropTree* t)
+void replaceImplications(PropTree* t)
 {
 	if(t->getOperator() == PropTree::Operator::Implies)
 	{
@@ -30,7 +30,7 @@ void CnfTransform::replaceImplications(PropTree* t)
 
 
 
-void CnfTransform::simplifyNots(PropTree* t)
+void simplifyNots(PropTree* t)
 {
 	if(t->getOperator() == PropTree::Operator::Not) // Here only right is not nullptr
 	{
@@ -68,7 +68,7 @@ void CnfTransform::simplifyNots(PropTree* t)
 }
 
 
-void CnfTransform::distributeOrOnAnd(PropTree* t)
+void distributeOrOnAnd(PropTree* t)
 {
 	if(t->getOperator() == PropTree::Operator::Or)
 	{
@@ -111,7 +111,7 @@ void CnfTransform::distributeOrOnAnd(PropTree* t)
 }
 
 
-void CnfTransform::toCNF(PropTree* t)
+void toCNF(PropTree* t)
 {
 	replaceEquivalences(t);
 	replaceImplications(t);

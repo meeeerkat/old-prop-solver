@@ -4,14 +4,14 @@
 
 
 
-PropTree* FormulaParsor::getPropTree(std::string const& formula)
+PropTree* getPropTree(std::string const& formula)
 {
 	// TODO: remove following spaces doublons before starting recursivity (we are using the number of spaces in it)
 	return getPropTreeRecursive(formula, 0, formula.size());
 }
 
 // For now if it has no spaces it can be a variable
-bool FormulaParsor::canBeVariable(std::string const& formula, int const& startI, int const& endI)
+bool canBeVariable(std::string const& formula, int const& startI, int const& endI)
 {
 	for(int i=startI; i < endI; i++)
 		if(formula[i] == ' ' || formula[i] == '(' || formula[i] == ')')
@@ -24,7 +24,7 @@ bool FormulaParsor::canBeVariable(std::string const& formula, int const& startI,
 
 
 // Makes i pass the parenthesis
-void FormulaParsor::passParenthesis(std::string const& formula, int& i)
+void passParenthesis(std::string const& formula, int& i)
 {
 	i++;
 	for(int opened=1; opened > 0; i++)
@@ -34,13 +34,13 @@ void FormulaParsor::passParenthesis(std::string const& formula, int& i)
 	}
 }
 
-bool FormulaParsor::canRemoveExtremeParenthesis(std::string const& formula, int startI, int endI)
+bool canRemoveExtremeParenthesis(std::string const& formula, int startI, int endI)
 {
 	passParenthesis(formula, startI);
 	return startI == endI+1;
 }
 
-void FormulaParsor::cleanSubFormulaIndexs(std::string const& formula, int& startI, int& endI)
+void cleanSubFormulaIndexs(std::string const& formula, int& startI, int& endI)
 {
 	int subFormulaSize = endI-startI;
 	endI -= 1; // Here endI is taken into the subFormula
@@ -61,7 +61,7 @@ void FormulaParsor::cleanSubFormulaIndexs(std::string const& formula, int& start
 	endI++; // In other functions, endI is not taken into the subFormula but it is the superior born
 }
 
-std::string FormulaParsor::getWord(std::string const& formula, int& i, int const& endI)
+std::string getWord(std::string const& formula, int& i, int const& endI)
 {
 	int oldI = i;
 	while(i < endI && formula[i] != ' ' && formula[i] != '(') i++;
@@ -69,7 +69,7 @@ std::string FormulaParsor::getWord(std::string const& formula, int& i, int const
 }
 
 
-PropTree* FormulaParsor::getPropTreeRecursive(std::string const& formula, int startI, int endI)
+PropTree* getPropTreeRecursive(std::string const& formula, int startI, int endI)
 {
 	cleanSubFormulaIndexs(formula, startI, endI);
 
