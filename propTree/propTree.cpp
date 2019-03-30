@@ -108,6 +108,11 @@ bool PropTree::isVariable() const
 	return op == Operator::None;
 }
 
+bool PropTree::isLiteral() const
+{
+	return isVariable() || (op == Operator::Not && right->isVariable());
+}
+
 std::vector<PropTree*> PropTree::getChildren() const
 {
 	return std::vector<PropTree*>{left, right};

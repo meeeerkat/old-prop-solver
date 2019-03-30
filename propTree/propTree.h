@@ -30,6 +30,7 @@ public:
 	bool hasPriorityOver(PropTree const& t) const;
 
 	bool isVariable() const;
+	bool isLiteral() const;
 
 	static bool isOperatorSymbol(std::string const& s);
 

@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "cnfTransform.h"
 
 
@@ -21,7 +21,7 @@ void CnfTransform::replaceImplications(PropTree* t)
 	if(t->getOperator() == PropTree::Operator::Implies)
 	{
 		t->setOperator(PropTree::Operator::Or);
-		t->left = new PropTree(PropTree::Operator::Not, t->left);
+		t->left = new PropTree(PropTree::Operator::Not, nullptr, t->left); // Not has only the right child
 	}
 
 	if(t->left) replaceImplications(t->left);
@@ -36,7 +36,7 @@ void CnfTransform::simplifyNots(PropTree* t)
 	{
 		if(t->right->isVariable())
 			return;
-
+		
 		PropTree* oldRight = t->right;
 		if(oldRight->getOperator() == PropTree::Operator::Not)
 		{
@@ -70,7 +70,44 @@ void CnfTransform::simplifyNots(PropTree* t)
 
 void CnfTransform::distributeOrOnAnd(PropTree* t)
 {
+	if(t->getOperator() == PropTree::Operator::Or)
+	{
+		if(t->right->getOperator() == PropTree::Operator::And && t->left->getOperator() == PropTree::Operator::And)
+		{
+			t->setOperator(PropTree::Operator::And);
+			
+			PropTree* leftLeft = t->left->left;
+			PropTree* leftRight = t->left->right;
+			t->left->left = new PropTree(PropTree::Operator::Or, t->left->left, t->right->left);
+			t->left->right = new PropTree(PropTree::Operator::Or, new PropTree(leftLeft), t->right->right);
+			t->right->left = new PropTree(PropTree::Operator::Or, leftRight, new PropTree(t->right->left));
+			t->right->right = new PropTree(PropTree::Operator::Or, new PropTree(leftRight), new PropTree(t->right->right));
+		}
+		else
+		{
+			PropTree *andTree=nullptr, *literal=nullptr;
+			if(t->left->getOperator() == PropTree::Operator::And && t->right->isLiteral())
+			{
+				andTree = t->left;
+				literal = t->right;
+			}
+			else if(t->right->getOperator() == PropTree::Operator::And && t->left->isLiteral())
+			{
+				andTree = t->right;
+				literal = t->left;
+			}
 
+			if(literal) // If we had one of thoses condition satisfied
+			{
+				t->setOperator(PropTree::Operator::And);
+				t->left = new PropTree(PropTree::Operator::Or, andTree->left, literal);
+				t->right = new PropTree(PropTree::Operator::Or, andTree->right, new PropTree(literal));
+			}
+		}
+	}
+
+	if(t->left) distributeOrOnAnd(t->left);
+	if(t->right) distributeOrOnAnd(t->right);
 }
 
 
