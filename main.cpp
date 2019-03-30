@@ -1,7 +1,7 @@
 #include <iostream>
 #include "propTree/formulaParsor.h"
 #include "propTree/cnfTransform.h"
-
+#include "solver/clausesSet.h"
 
 
 int main()
@@ -12,7 +12,9 @@ int main()
 
 	toCNF(t);
 
-	t->display();
+	ClausesSet s = ClausesSet(t);
+	std::cout << s << std::endl;
+
 	delete(t);
 
 	return 0;

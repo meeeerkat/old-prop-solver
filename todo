@@ -3,9 +3,4 @@
 
 USE SETS FOR CLAUSES SETS
 
-DONT USE STATIC CLASSES BUT USE NAMESPACES ???????
-
-toCNF & other functions like that are to be outside of the PropTree class for ease of use (and because it's not directly related)
-
-
 
