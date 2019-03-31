@@ -12,7 +12,7 @@ public:
 
 	// Display
 	virtual std::string nodeToString() const = 0;
-	virtual void display(int indent, int const& indentSize) const;
+	virtual void display(int indent, int const& indentSize, bool const& showNull = false) const;
 
    	friend std::ostream &operator<<(std::ostream &out, Tree const& t);
 };

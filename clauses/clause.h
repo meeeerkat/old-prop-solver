@@ -9,6 +9,7 @@ class Clause : public std::set<Literal>
 {
 public:
 	Clause();
+	Clause(Clause const& c);
 
 	Clause(PropTree* const& orCNFTree);
 	void recursivelySetClause(PropTree* const orTree);

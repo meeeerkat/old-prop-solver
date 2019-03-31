@@ -10,6 +10,10 @@ Clause::Clause()
 
 }
 
+Clause::Clause(Clause const& c)
+	: std::set<Literal>(c)
+{}
+
 Clause::Clause(PropTree* const& orTree)
 	: std::set<Literal>()
 {
@@ -82,8 +86,10 @@ bool Clause::isEmpty() const
 
 std::ostream &operator<<(std::ostream &out, Clause const& c)
 {
+	out << "{";
 	for(auto it = c.begin(); it != c.end(); it++) 
-		out << std::setw(6) << *it << " "; 
+		out << *it << ";";
+       	out << "}";	
 	return out;
 }
 

@@ -2,6 +2,11 @@
 #include "clausesSet.h"
 
 
+ClausesSet::ClausesSet(ClausesSet const& clausesSet)
+	: std::set<Clause>(clausesSet)
+{}
+
+
 // Construction from CNF tree
 ClausesSet::ClausesSet(PropTree* cnfTree)
 	: std::set<Clause>()
@@ -54,37 +59,67 @@ void ClausesSet::saturate()
 }
 
 
+// DOESNT WORK
 void ClausesSet::simplifyAssuming(Literal const& h)
 {
 	Literal const notH = h.getNegation();
+	std::set<Clause> modifiedClauses;
 	auto it = begin();
 	while(it != end()) 
 	{
-		if(it->count(h))
+		if(it->count(h) == 1)
+			it = erase(it);
+		else
 		{
-			erase(it);
-			continue; // No it increment here
+			auto toRemove = it->find(notH);
+			if(toRemove != it->end())
+			{
+				// We can modify an element in a set, we need to copy, change the copy, add it and erase the old one
+				// Here we want to pass on each elements so we put every modified element in a set to insert at the end
+				Clause copy(*it);
+				copy.erase(*toRemove);
+				it = erase(it);
+				modifiedClauses.insert(copy);
+			}
+			else // Only case where the iterator's pointed element is not erased, we continue with the next
+				it++;
 		}
-
-		auto toRemove = it->find(notH);
-		if(toRemove != it->end())
-		{
-			// We can modify an element in a set, we need to copy, change the copy, add it and erase the old element
-			Clause copy = *it;
-			copy.erase(toRemove);
-			insert(copy);
-			erase(it);
-		}
-
-		it++;
 	}
+	// Inserting back modified clauses
+	insert(modifiedClauses.begin(), modifiedClauses.end());
+}
+
+
+ClausesSet::Variables ClausesSet::getVariables() const
+{
+	Variables out;
+	for(auto x=begin(); x != end(); x++)
+		for(auto y=x->begin(); y != x->end(); y++)
+			out.insert(y->variable);
+	return out;
+}
+
+
+bool ClausesSet::isEmpty() const
+{
+	return size() == 0;
+}
+
+bool ClausesSet::hasEmptyClause() const
+{
+	for(auto it=begin(); it!=end(); it++)
+		if(it->isEmpty())
+			return true;
+	return false;
 }
 
 
 std::ostream &operator<<(std::ostream &out, ClausesSet const& c)
 {
+	out << "{";
     	for (auto it = c.begin(); it != c.end(); it++) 
-		out << *it << std::endl;
+		out << *it << ";";
+	out << "}";
 	return out;
 }
 

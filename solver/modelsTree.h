@@ -20,6 +20,12 @@ public:
 
 	ModelsTree *left, *right;
 
+	std::string variable;
+private:
+	// Internal constructors & helper function
+	void setupModelsTree(ClausesSet const& c, ClausesSet::Variables::iterator varIt, ClausesSet::Variables::iterator const& end);
+	ModelsTree(ClausesSet const& c, ClausesSet::Variables::iterator varIt, ClausesSet::Variables::iterator const& end);
+	ModelsTree();
 };
 
 #endif
