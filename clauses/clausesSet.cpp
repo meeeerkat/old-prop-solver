@@ -53,6 +53,34 @@ void ClausesSet::saturate()
 	}
 }
 
+
+void ClausesSet::simplifyAssuming(Literal const& h)
+{
+	Literal const notH = h.getNegation();
+	auto it = begin();
+	while(it != end()) 
+	{
+		if(it->count(h))
+		{
+			erase(it);
+			continue; // No it increment here
+		}
+
+		auto toRemove = it->find(notH);
+		if(toRemove != it->end())
+		{
+			// We can modify an element in a set, we need to copy, change the copy, add it and erase the old element
+			Clause copy = *it;
+			copy.erase(toRemove);
+			insert(copy);
+			erase(it);
+		}
+
+		it++;
+	}
+}
+
+
 std::ostream &operator<<(std::ostream &out, ClausesSet const& c)
 {
     	for (auto it = c.begin(); it != c.end(); it++) 

@@ -13,8 +13,9 @@ public:
 	Clause(PropTree* const& orCNFTree);
 	void recursivelySetClause(PropTree* const orTree);
 
-
 	static Clause getResultantOrTautology(Clause const& a, Clause const& b, bool& isTautology);
+
+	bool isEmpty() const;
 
    	friend std::ostream &operator<<(std::ostream &output, Clause const& c);
 };

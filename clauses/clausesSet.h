@@ -17,6 +17,8 @@ public:
 
 	void saturate();
 
+	void simplifyAssuming(Literal const& h);
+
 
 private:
 	void recursivelyConstruct(PropTree* t);

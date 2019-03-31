@@ -1,7 +1,7 @@
 #include <iostream>
 #include "propTree/formulaParsor.h"
 #include "propTree/cnfTransform.h"
-#include "solver/clausesSet.h"
+#include "clauses/clausesSet.h"
 
 
 int main()

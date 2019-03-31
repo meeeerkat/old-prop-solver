@@ -40,11 +40,11 @@ Clause Clause::getResultantOrTautology(Clause const& a, Clause const& b, bool& i
 	Clause::iterator ar, br;
 	while(ai != a.end() && bi != b.end())
 	{
-		while(ai != a.end() && (*ai).variable < (*bi).variable) ai++;
-		while(bi != b.end() && (*bi).variable < (*ai).variable) bi++;
-		if((*ai).variable == (*bi).variable)
+		while(ai != a.end() && ai->variable < bi->variable) ai++;
+		while(bi != b.end() && bi->variable < ai->variable) bi++;
+		if(ai->variable == bi->variable)
 		{
-			if((*ai).isNegated != (*bi).isNegated)
+			if(ai->isNegated != bi->isNegated)
 			{
 				isUsefull = true;
 				if(alreadyFoundOne) // There are at least 2 variables that could be simplified but each cases gives a tautology
@@ -73,9 +73,16 @@ Clause Clause::getResultantOrTautology(Clause const& a, Clause const& b, bool& i
 }
 
 
+bool Clause::isEmpty() const
+{
+	return size() == 0;
+}
+
+
+
 std::ostream &operator<<(std::ostream &out, Clause const& c)
 {
-	for (auto it = c.begin(); it != c.end(); it++) 
+	for(auto it = c.begin(); it != c.end(); it++) 
 		out << std::setw(6) << *it << " "; 
 	return out;
 }

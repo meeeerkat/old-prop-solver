@@ -7,6 +7,12 @@ bool Literal::isNegationOf(Literal const& l) const
 	return variable == l.variable && isNegated == !l.isNegated;
 }
 
+Literal Literal::getNegation() const
+{
+	return Literal{variable, !isNegated};
+}
+
+
 bool Literal::operator==(Literal const& l)
 {
 	return variable == l.variable && isNegated == l.isNegated;
