@@ -18,7 +18,7 @@ public:
 
 	void saturate();
 
-	static Clause getResultant(Clause const& a, Clause const& b);
+	static Clause getResultantOrTautology(Clause const& a, Clause const& b, bool& isTautology);
 
 
 private:

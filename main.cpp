@@ -13,6 +13,7 @@ int main()
 	toCNF(t);
 
 	ClausesSet s = ClausesSet(t);
+	s.saturate();
 	std::cout << s << std::endl;
 
 	delete(t);

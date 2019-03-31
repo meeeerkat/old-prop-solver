@@ -10,6 +10,8 @@ struct Literal
 	std::string variable;
 	bool isNegated = false;
 
+	bool isNegationOf(Literal const& l) const;
+
 	bool operator==(Literal const& other);
 	friend bool operator< (Literal const& a, Literal const& b);
 

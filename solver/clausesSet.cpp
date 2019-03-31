@@ -3,13 +3,12 @@
 #include "clausesSet.h"
 
 
-
+// Construction from CNF tree
 ClausesSet::ClausesSet(PropTree* cnfTree)
 	: std::set<std::set<Literal>>()
 {
 	recursivelyConstruct(cnfTree);
 }
-
 
 void ClausesSet::recursivelyConstruct(PropTree* t)
 {
@@ -40,14 +39,73 @@ ClausesSet::Clause ClausesSet::recursivelyGetClause(PropTree* orTree)
 
 
 
+// Saturation
 void ClausesSet::saturate()
 {
-
+	auto endX = end();
+	endX--; // Ending is not end() or infinite loop
+	for(auto x=begin(); x != endX; x++)
+	{
+		auto y=x;
+		y++;
+		while(y != end())
+		{
+			bool isUsefull;
+			Clause res = getResultantOrTautology(*x, *y, isUsefull);
+			if(isUsefull)
+			{
+				if(res.empty())
+				{
+					clear();
+					insert(Clause{});
+					return;
+				}
+				insert(res);
+			}
+			y++;
+		}
+	}
 }
 
-ClausesSet::Clause ClausesSet::getResultant(Clause const& a, Clause const& b)
+ClausesSet::Clause ClausesSet::getResultantOrTautology(Clause const& a, Clause const& b, bool& isUsefull)
 {
-	return Clause();
+	isUsefull = false;
+	bool alreadyFoundOne = false;
+	auto ai = a.begin();
+	auto bi = b.begin();
+	Clause::iterator ar, br;
+	while(ai != a.end() && bi != b.end())
+	{
+		while(ai != a.end() && (*ai).variable < (*bi).variable) ai++;
+		while(bi != b.end() && (*bi).variable < (*ai).variable) bi++;
+		if((*ai).variable == (*bi).variable)
+		{
+			if((*ai).isNegated != (*bi).isNegated)
+			{
+				isUsefull = true;
+				if(alreadyFoundOne) // There are at least 2 variables that could be simplified but each cases gives a tautology
+					return Clause();
+				alreadyFoundOne = true;
+				ar = ai;
+				br = bi;
+			}
+			ai++;
+			bi++;
+		}
+	}
+
+	if(!alreadyFoundOne)
+		return Clause();
+		
+
+	Clause out;
+	out.insert(a.begin(), ar);
+	ar++;
+	out.insert(ar, a.end());
+	out.insert(b.begin(), br);
+	br++;
+	out.insert(br, b.end());
+	return out;
 }
 
 
