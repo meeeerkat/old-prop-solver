@@ -3,22 +3,19 @@
 
 #include <iostream>
 #include <set>
-#include "literal.h"
+#include "clause.h"
 #include "../propTree/propTree.h"
 
 
 
-class ClausesSet : std::set<std::set<Literal>>
+
+class ClausesSet : public std::set<Clause>
 {
 public:
-	typedef std::set<Literal> Clause;
-
 	ClausesSet(PropTree* cnfTree);
 
 
 	void saturate();
-
-	static Clause getResultantOrTautology(Clause const& a, Clause const& b, bool& isTautology);
 
 
 private:
