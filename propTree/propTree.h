@@ -4,9 +4,11 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "../general/tree.h"
 
 
-class PropTree {
+class PropTree : public Tree
+{
 public:
 	enum Operator{None=100, Not=5,And=4,Or=3,Implies=2,Equivals=1};
 
@@ -16,11 +18,10 @@ public:
 
 	virtual ~PropTree();
 
-	// Display
+	// For base Tree class
+	virtual Tree* getLeft() const;
+	virtual Tree* getRight() const;
  	virtual std::string nodeToString() const;
-	void display(int indent=0, int const& indentSize=4) const;
-
- 	//virtual std::string getFormula() const;
 
 	Operator getOperator() const;
 	void setOperator(Operator op);
@@ -34,8 +35,10 @@ public:
 
 	static bool isOperatorSymbol(std::string const& s);
 
-	PropTree *left, *right;
 	std::vector<PropTree*> getChildren() const;
+
+
+	PropTree *left, *right;
 
 
 protected:

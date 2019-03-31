@@ -17,7 +17,7 @@ public:
 
 	bool isEmpty() const;
 
-   	friend std::ostream &operator<<(std::ostream &output, Clause const& c);
+   	friend std::ostream &operator<<(std::ostream &out, Clause const& c);
 };
 
 #endif

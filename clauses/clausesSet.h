@@ -25,7 +25,7 @@ private:
 	Clause recursivelyGetClause(PropTree* orTree);
 
 
-      	friend std::ostream &operator<<(std::ostream &output, ClausesSet const& c);
+      	friend std::ostream &operator<<(std::ostream &out, ClausesSet const& c);
 
 };
 

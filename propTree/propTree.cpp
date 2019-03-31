@@ -42,23 +42,21 @@ PropTree::PropTree(PropTree* t)
 	if(t->right) right = new PropTree(t->right);
 }
 
-
 PropTree::~PropTree()
 {
-	if(left) delete(left);
-	if(right) delete(right);
+	delete(left);
+	delete(right);
 }
 
 
-void PropTree::display(int indent, int const& indentSize) const
+// For base Tree class
+Tree* PropTree::getLeft() const {return left;}
+Tree* PropTree::getRight() const {return right;}
+std::string PropTree::nodeToString() const
 {
-        if (indent) {
-            std::cout << std::setw(indent) << ' ';
-        }
-	std::cout << nodeToString() << "\n ";
-        if(left) left->display(indent+indentSize);
-        if(right) right->display(indent+indentSize);
+	return symbol;
 }
+
 
 
 bool PropTree::isOperatorSymbol(std::string const& symbol)
@@ -92,10 +90,6 @@ void PropTree::setOperator(Operator newOp)
 		symbol = PropTree::OperatorsToString[op];
 }
 
-std::string PropTree::nodeToString() const
-{
-	return symbol;
-}
 
 bool PropTree::hasPriorityOver(PropTree const& t) const
 {
