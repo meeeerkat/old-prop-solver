@@ -1,10 +1,12 @@
 
 
 
-MAKE TABLE CLASS IN SOLVE DIRECTORY
-it's not an important class, just for visual presentation setup (the modelTree is more efficient than the table for an algorithm)
-
 
 in ModelsTabFactory::getTabRecursive() use standart library functions ( NEED TO SEARCH NAMES & HOW TO USE THEM ) see comments
+
+EQUIVALENCES DOESNT WORK !!!!!!!!
+SOME PROPOSITION WONT WORK TOO (With implications)
+Check how they are changed to CNF in toCNF
+
 
 

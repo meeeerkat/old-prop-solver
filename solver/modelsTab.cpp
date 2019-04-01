@@ -1,5 +1,6 @@
 
 #include "modelsTab.h"
+#include <iomanip>
 
 
 
@@ -37,12 +38,6 @@ ModelsTab::Tab ModelsTab::getTabRecursive(ModelsTree* t, int variablesNb, Criter
 	for(auto it=rightTab.begin(); it != rightTab.end(); it++)
 		leftTab.push_back(*it);
 
-	// Reversing the vectors to have then in the right order
-	/* THERE IS A STANDART FUNCTION FOR THAT, JUST NEED TO FIND IT
-	for(auto it=leftTab.begin(); it != leftTab.end(); it++)
-		it->reverse();
-	*/
-
 	return leftTab;
 }
 
@@ -67,6 +62,34 @@ ModelsTab::Tab ModelsTab::getAllPossibilities(int depth)
 	}
 
 	return poss;
+}
+
+
+// ModelsTab is built from the left to the right for performances (push_back instead or prepend) and is kept that way (perfs again)
+// We print it the other way around
+std::ostream &operator<<(std::ostream &out, ModelsTab const& mTab)
+{
+	for(auto i=mTab.variables.begin(); i != mTab.variables.end(); i++)
+		out << *i << " ";
+	out << std::endl;
+
+	for(auto x=mTab.begin(); x != mTab.end(); x++)
+	{
+		auto i=mTab.variables.begin();
+		auto y=x->end();
+		while(y != x->begin())
+		{
+			y--;
+			if(i->size() != 1)
+				out << std::setw((i->size()-1)/2) << " ";
+			out << *y;
+			out << std::setw((i->size()+1)/2) << " ";
+			i++;
+		}
+		out << std::endl;
+	}
+
+	return out;
 }
 
 

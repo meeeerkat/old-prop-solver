@@ -20,14 +20,8 @@ int main()
 	ModelsTree* mt = new ModelsTree(s);
 
 	ModelsTab tab = ModelsTab::createModelsTab(mt, s.getVariables());
+	std::cout << tab << std::endl;
 	
-	for(auto x=tab.begin(); x != tab.end(); x++)
-	{
-		for(auto y=x->begin(); y != x->end(); y++)
-			std::cout << *y << " ";
-		std::cout << std::endl;
-	}
-
 	delete(mt);
 	delete(t);
 

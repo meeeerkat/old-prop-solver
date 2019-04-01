@@ -21,12 +21,15 @@ public:
 	static ModelsTab createModelsTab(ModelsTree* modelsTree, Variables const& vars, Criteria const& c = Criteria::All);
 
 
+private:
 	Variables variables;
 
-private:
 	ModelsTab(Tab const& tab, Variables const& vars);
 	static Tab getTabRecursive(ModelsTree* t, int variablesNb, Criteria const& c = Criteria::All);
 	static Tab getAllPossibilities(int depth);
+
+
+   	friend std::ostream &operator<<(std::ostream &out, ModelsTab const& mTab);
 };
 
 #endif
