@@ -8,9 +8,13 @@ ModelsTree::ModelsTree(ClausesSet const& c)
 	setupModelsTree(c, variables.begin(), variables.end());
 }
 
+ModelsTree::ModelsTree(ClausesSet const& c, std::set<std::string> const& variables)
+{
+	setupModelsTree(c, variables.begin(), variables.end());
+}
 
 // Internal constructors & the helper function
-ModelsTree::ModelsTree(ClausesSet const& c, ClausesSet::Variables::iterator varIt,  ClausesSet::Variables::iterator const& endIt)
+ModelsTree::ModelsTree(ClausesSet const& c, ClausesSet::Variables::const_iterator varIt,  ClausesSet::Variables::const_iterator const& endIt)
 {
 	setupModelsTree(c, varIt, endIt);
 }
@@ -19,7 +23,7 @@ ModelsTree::ModelsTree()
 	: left(nullptr), right(nullptr), variable("treeEnd")
 {}
 
-void ModelsTree::setupModelsTree(ClausesSet const& c, ClausesSet::Variables::iterator varIt,  ClausesSet::Variables::iterator const& endIt)
+void ModelsTree::setupModelsTree(ClausesSet const& c, ClausesSet::Variables::const_iterator varIt,  ClausesSet::Variables::const_iterator const& endIt)
 {
 	variable = *varIt;
 
@@ -60,8 +64,6 @@ std::string ModelsTree::nodeToString() const
 {
 	return variable;
 }
-
-
 
 
 
