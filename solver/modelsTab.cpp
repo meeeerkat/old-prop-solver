@@ -1,19 +1,22 @@
 
-#include "modelsTableFactory.h"
+#include "modelsTab.h"
 
 
 
-ModelsTableFactory::ModelsTableFactory(ModelsTree* modelsTree, Variables const& variables)
-	: modelsTree(modelsTree), variables(variables)
-{}
-
-ModelsTableFactory::Tab ModelsTableFactory::getTab(Criteria const& c) const
+ModelsTab ModelsTab::createModelsTab(ModelsTree* modelsTree, Variables const& vars, Criteria const& c)
 {
-	return getTabRecursive(modelsTree, variables.size(), c);
+	Tab tab = getTabRecursive(modelsTree, vars.size(), c);
+	return ModelsTab(tab, vars);
 }
 
 
-ModelsTableFactory::Tab ModelsTableFactory::getTabRecursive(ModelsTree* t, int variablesNb, Criteria const& c) const
+ModelsTab::ModelsTab(Tab const& tab, Variables const& vars)
+	:Tab(tab), variables(vars)
+{}
+
+
+
+ModelsTab::Tab ModelsTab::getTabRecursive(ModelsTree* t, int variablesNb, Criteria const& c)
 {
 	if(!t->left && !t->right)
 		return getAllPossibilities(variablesNb);
@@ -43,7 +46,7 @@ ModelsTableFactory::Tab ModelsTableFactory::getTabRecursive(ModelsTree* t, int v
 	return leftTab;
 }
 
-ModelsTableFactory::Tab ModelsTableFactory::getAllPossibilities(int depth)
+ModelsTab::Tab ModelsTab::getAllPossibilities(int depth)
 {
 	Tab poss{{}};
 

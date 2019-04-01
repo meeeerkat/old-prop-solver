@@ -3,7 +3,7 @@
 #include "propTree/cnfTransform.h"
 #include "clauses/clausesSet.h"
 #include "solver/modelsTree.h"
-#include "solver/modelsTableFactory.h"
+#include "solver/modelsTab.h"
 
 
 int main()
@@ -19,9 +19,7 @@ int main()
 
 	ModelsTree* mt = new ModelsTree(s);
 
-	ModelsTableFactory tabFactory(mt, s.getVariables());
-	ModelsTableFactory::Tab tab = tabFactory.getTab();
-	//ModelsTableFactory::Tab tab = ModelsTableFactory::getAllPossibilities(5);
+	ModelsTab tab = ModelsTab::createModelsTab(mt, s.getVariables());
 	
 	for(auto x=tab.begin(); x != tab.end(); x++)
 	{
