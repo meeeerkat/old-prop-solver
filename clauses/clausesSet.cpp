@@ -96,7 +96,7 @@ void ClausesSet::simplifyAssuming(Literal const& h)
 }
 
 
-ClausesSet::Variables ClausesSet::getCurrentVariables() const
+Variables ClausesSet::getCurrentVariables() const
 {
 	Variables out;
 	for(auto x=begin(); x != end(); x++)

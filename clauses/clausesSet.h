@@ -4,6 +4,7 @@
 #include <iostream>
 #include <set>
 #include <string>
+#include "../types.h"
 #include "clause.h"
 #include "../propTree/propTree.h"
 
@@ -13,8 +14,6 @@
 class ClausesSet : private std::set<Clause>
 {
 public:
-	typedef std::set<std::string> Variables;
-
 	ClausesSet(ClausesSet const& clausesSet, bool const& removeTautologies = true);
 	ClausesSet(PropTree* cnfTree);
 

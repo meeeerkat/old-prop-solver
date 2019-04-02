@@ -6,17 +6,17 @@
 ModelsTree::ModelsTree(ClausesSet const& c)
 {
 	// Does not gives all the variables since the clausesSet is assumed to be saturated
-	ClausesSet::Variables const variables = c.getCurrentVariables();
+	Variables const variables = c.getCurrentVariables();
 	setupModelsTree(c, variables.begin(), variables.end());
 }
 
-ModelsTree::ModelsTree(ClausesSet const& c, std::set<std::string> const& variables)
+ModelsTree::ModelsTree(ClausesSet const& c, Variables const& variables)
 {
 	setupModelsTree(c, variables.begin(), variables.end());
 }
 
 // Internal constructors & the helper function
-ModelsTree::ModelsTree(ClausesSet const& c, ClausesSet::Variables::const_iterator varIt,  ClausesSet::Variables::const_iterator const& endIt)
+ModelsTree::ModelsTree(ClausesSet const& c, Variables::const_iterator varIt, Variables::const_iterator const& endIt)
 {
 	setupModelsTree(c, varIt, endIt);
 }
@@ -25,7 +25,7 @@ ModelsTree::ModelsTree()
 	: left(nullptr), right(nullptr), variable("treeEnd")
 {}
 
-void ModelsTree::setupModelsTree(ClausesSet const& c, ClausesSet::Variables::const_iterator varIt,  ClausesSet::Variables::const_iterator const& endIt)
+void ModelsTree::setupModelsTree(ClausesSet const& c, Variables::const_iterator varIt, Variables::const_iterator const& endIt)
 {
 	assert(!c.hasEmptyClause() && !c.isEmpty() && "Useless to build a model tree if there are no models or if it's a tautology");
 

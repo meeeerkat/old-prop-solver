@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include "../types.h"
 #include "../general/tree.h"
 
 
@@ -34,7 +35,7 @@ public:
 	bool isVariable() const;
 	bool isLiteral() const;
 
-	std::set<std::string> getAllVariables() const;
+	Variables getAllVariables() const;
 
 	static bool isOperatorSymbol(std::string const& s);
 
