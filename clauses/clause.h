@@ -14,6 +14,7 @@ public:
 	Clause(PropTree* const& orCNFTree);
 	void recursivelySetClause(PropTree* const orTree);
 
+	bool isTautology() const;
 	static Clause getResultantOrTautology(Clause const& a, Clause const& b, bool& isTautology);
 
 	bool isEmpty() const;

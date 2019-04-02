@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <set>
 #include "../general/tree.h"
 
 
@@ -33,10 +34,11 @@ public:
 	bool isVariable() const;
 	bool isLiteral() const;
 
+	std::set<std::string> getAllVariables() const;
+
 	static bool isOperatorSymbol(std::string const& s);
 
 	std::vector<PropTree*> getChildren() const;
-
 
 	PropTree *left, *right;
 

@@ -2,9 +2,12 @@
 #include "clausesSet.h"
 
 
-ClausesSet::ClausesSet(ClausesSet const& clausesSet)
+ClausesSet::ClausesSet(ClausesSet const& clausesSet, bool const& rmTautologies)
 	: std::set<Clause>(clausesSet)
-{}
+{
+	if(rmTautologies)
+		removeTautologies();
+}
 
 
 // Construction from CNF tree
@@ -12,6 +15,7 @@ ClausesSet::ClausesSet(PropTree* cnfTree)
 	: std::set<Clause>()
 {
 	recursivelyConstruct(cnfTree);
+	removeTautologies();
 }
 
 void ClausesSet::recursivelyConstruct(PropTree* t)
@@ -33,6 +37,9 @@ void ClausesSet::recursivelyConstruct(PropTree* t)
 // Saturation
 void ClausesSet::saturate()
 {
+	if(isEmpty()) // Empty case makes an infinite loop
+		return;
+
 	auto endX = end();
 	endX--; // Ending is not end() or infinite loop
 	for(auto x=begin(); x != endX; x++)
@@ -45,10 +52,10 @@ void ClausesSet::saturate()
 			Clause res = Clause::getResultantOrTautology(*x, *y, isUsefull);
 			if(isUsefull)
 			{
-				if(res.empty())
+				if(res.size() == 0)
 				{
 					clear();
-					insert(Clause{});
+					insert(Clause());
 					return;
 				}
 				insert(res);
@@ -59,7 +66,6 @@ void ClausesSet::saturate()
 }
 
 
-// DOESNT WORK
 void ClausesSet::simplifyAssuming(Literal const& h)
 {
 	Literal const notH = h.getNegation();
@@ -90,7 +96,7 @@ void ClausesSet::simplifyAssuming(Literal const& h)
 }
 
 
-ClausesSet::Variables ClausesSet::getVariables() const
+ClausesSet::Variables ClausesSet::getCurrentVariables() const
 {
 	Variables out;
 	for(auto x=begin(); x != end(); x++)
@@ -113,6 +119,17 @@ bool ClausesSet::hasEmptyClause() const
 	return false;
 }
 
+void ClausesSet::removeTautologies()
+{
+	auto it=begin();
+	while(it != end())
+	{
+		if(it->isTautology())
+			it = erase(it);
+		else
+			it++;
+	}
+}
 
 std::ostream &operator<<(std::ostream &out, ClausesSet const& c)
 {

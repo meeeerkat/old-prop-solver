@@ -34,6 +34,20 @@ void Clause::recursivelySetClause(PropTree* const orTree)
 	}
 }
 
+bool Clause::isTautology() const
+{
+	auto x = begin();
+	auto y = begin();
+	y++; // y is one step ahead
+	while(x != end())
+	{
+		if(x->variable == y->variable) // No doublons so if two have the same variable they are the negation of each other
+			return true;
+		x++;
+		y++;
+	}
+	return false;
+}
 
 Clause Clause::getResultantOrTautology(Clause const& a, Clause const& b, bool& isUsefull)
 {
@@ -50,7 +64,6 @@ Clause Clause::getResultantOrTautology(Clause const& a, Clause const& b, bool& i
 		{
 			if(ai->isNegated != bi->isNegated)
 			{
-				isUsefull = true;
 				if(alreadyFoundOne) // There are at least 2 variables that could be simplified but each cases gives a tautology
 					return Clause();
 				alreadyFoundOne = true;
@@ -65,6 +78,7 @@ Clause Clause::getResultantOrTautology(Clause const& a, Clause const& b, bool& i
 	if(!alreadyFoundOne)
 		return Clause();
 		
+	isUsefull = true;
 
 	Clause out;
 	out.insert(a.begin(), ar);

@@ -14,15 +14,24 @@ int main()
 
 	toCNF(t);
 
-	ClausesSet s = ClausesSet(t);
+	ClausesSet s(t);
 	s.saturate();
 
-	ModelsTree* mt = new ModelsTree(s);
+	if(s.hasEmptyClause())
+		std::cout << "INSATISFIABLE" << std::endl;
+	else if(s.isEmpty())
+		std::cout << "TAUTOLOGY" << std::endl;
+	else
+	{
+		std::set<std::string> vars = t->getAllVariables();
+		ModelsTree* mt = new ModelsTree(s, vars);
 
-	ModelsTab tab = ModelsTab::createModelsTab(mt, s.getVariables());
-	std::cout << tab << std::endl;
-	
-	delete(mt);
+		ModelsTab tab = ModelsTab::createModelsTab(mt, vars);
+		std::cout << tab << std::endl;
+		
+		delete(mt);
+	}
+
 	delete(t);
 
 	return 0;

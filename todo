@@ -9,4 +9,6 @@ SOME PROPOSITION WONT WORK TOO (With implications)
 Check how they are changed to CNF in toCNF
 
 
+CREATE Clause::Clean && ClausesSet::Clean functions to remove Tautologies during construction (doublons are eliminated cause it's sets)
+
 

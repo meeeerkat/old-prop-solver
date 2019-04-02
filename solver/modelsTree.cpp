@@ -1,10 +1,12 @@
 #include "modelsTree.h"
+#include <cassert>
 #include <iostream>
 
 
 ModelsTree::ModelsTree(ClausesSet const& c)
 {
-	ClausesSet::Variables const variables = c.getVariables();
+	// Does not gives all the variables since the clausesSet is assumed to be saturated
+	ClausesSet::Variables const variables = c.getCurrentVariables();
 	setupModelsTree(c, variables.begin(), variables.end());
 }
 
@@ -25,11 +27,13 @@ ModelsTree::ModelsTree()
 
 void ModelsTree::setupModelsTree(ClausesSet const& c, ClausesSet::Variables::const_iterator varIt,  ClausesSet::Variables::const_iterator const& endIt)
 {
+	assert(!c.hasEmptyClause() && !c.isEmpty() && "Useless to build a model tree if there are no models or if it's a tautology");
+
 	variable = *varIt;
 
 	ClausesSet leftCopy(c), rightCopy(c);
-	leftCopy.simplifyAssuming(Literal{*varIt, true}); // left subtree corresponds to the negated one
-	rightCopy.simplifyAssuming(Literal{*varIt, false});
+	leftCopy.simplifyAssuming(Literal{variable, true}); // left subtree corresponds to the negated one
+	rightCopy.simplifyAssuming(Literal{variable, false});
 
 	varIt++;
 	if(leftCopy.isEmpty())

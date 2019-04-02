@@ -112,3 +112,19 @@ std::vector<PropTree*> PropTree::getChildren() const
 	return std::vector<PropTree*>{left, right};
 }
 
+std::set<std::string> PropTree::getAllVariables() const
+{
+	if(isVariable())
+		return std::set<std::string>{symbol};
+
+	std::set<std::string> out, rightVars;
+	if(left) out = left->getAllVariables();
+	if(right) rightVars = right->getAllVariables();
+
+	// USE STD FUNCTIONS FOR THAT (not optimized at all)
+	for(auto it=rightVars.begin(); it != rightVars.end(); it++)
+		out.insert(*it);
+	return out;
+}
+
+
