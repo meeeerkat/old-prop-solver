@@ -32,12 +32,8 @@ ModelsTab::Tab ModelsTab::getTabRecursive(ModelsTree* t, int variablesNb, Criter
 		it->push_back(false);
 	for(auto it=rightTab.begin(); it != rightTab.end(); it++)
 		it->push_back(true);
-	
-	// USE THAT    leftTab.insert(rightTab.begin(), rightTab.end());
-	// TEMPORARY SOLUTION UNTIL INTERNET KICKS IN
-	for(auto it=rightTab.begin(); it != rightTab.end(); it++)
-		leftTab.push_back(*it);
 
+    leftTab.insert(leftTab.end(), rightTab.begin(), rightTab.end());
 	return leftTab;
 }
 
