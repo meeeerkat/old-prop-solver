@@ -40,29 +40,33 @@ void ClausesSet::saturate()
 	if(isEmpty()) // Empty case makes an infinite loop
 		return;
 
-	auto endX = end();
-	endX--; // Ending is not end() or infinite loop
-	for(auto x=begin(); x != endX; x++)
-	{
-		auto y=x;
-		y++;
-		while(y != end())
-		{
-			bool isUsefull;
-			Clause res = Clause::getResultantOrTautology(*x, *y, isUsefull);
-			if(isUsefull)
-			{
-				if(res.size() == 0)
-				{
-					clear();
-					insert(Clause());
-					return;
-				}
-				insert(res);
-			}
-			y++;
-		}
-	}
+    // We do that until we have nothing new or until we have an empty Clause
+    int oldSize = size();
+    do {
+        auto endX = end();
+        endX--; // Ending is not end() or infinite loop
+        for(auto x=begin(); x != endX; x++)
+        {
+            auto y=x;
+            y++;
+            while(y != end())
+            {
+                bool isUsefull;
+                Clause res = Clause::getResultantOrTautology(*x, *y, isUsefull);
+                if(isUsefull)
+                {
+                    if(res.size() == 0)
+                    {
+                        clear();
+                        insert(Clause());
+                        return;
+                    }
+                    insert(res);
+                }
+                y++;
+            }
+        }
+    } while(size() > oldSize);
 }
 
 

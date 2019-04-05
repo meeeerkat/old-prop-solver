@@ -2,13 +2,6 @@
 
 
 
-in ModelsTabFactory::getTabRecursive() use standart library functions ( NEED TO SEARCH NAMES & HOW TO USE THEM ) see comments
-
-EQUIVALENCES DOESNT WORK !!!!!!!!
-SOME PROPOSITION WONT WORK TOO (With implications)
-Check how they are changed to CNF in toCNF
-
-
-CREATE Clause::Clean && ClausesSet::Clean functions to remove Tautologies during construction (doublons are eliminated cause it's sets)
-
+in ModelsTab::getTabRecursive() use standart library functions ( NEED TO SEARCH NAMES & HOW TO USE THEM ) see comments
+In ClausesSet::removeTautologies too
 
