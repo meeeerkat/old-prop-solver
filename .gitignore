@@ -1,4 +1,4 @@
 
-bin/*
+bin/main
 obj/*.o
 obj/*/*.o
