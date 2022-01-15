@@ -1,6 +1,11 @@
 #include "formulaParsor.h"
 
 
+/*
+ * what a disgusting way to parse the formula...
+ * TODO: use grammars now that I know what it is
+ * TODO: parsing done with subclasses...
+ */
 
 
 
